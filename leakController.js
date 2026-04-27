@@ -1,5 +1,5 @@
-const { LeakLog, BreachDatabase, User } = require('../models');
-const { addLeakWithTransaction } = require('../services/riskService');
+const { LeakLog, BreachDatabase, User } = require('./index');
+const { addLeakWithTransaction } = require('./riskService');
 const { Op } = require('sequelize');
 
 // POST /api/leaks/add

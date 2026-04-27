@@ -1,7 +1,7 @@
 const express = require('express');
 const router  = express.Router();
-const { addBreach, getAllUsers, getAllLeaks, getAnalytics, getAllBreaches, toggleUserActive } = require('../controllers/adminController');
-const { authenticate, authorizeAdmin } = require('../middleware/auth');
+const { addBreach, getAllUsers, getAllLeaks, getAnalytics, getAllBreaches, toggleUserActive } = require('./adminController');
+const { authenticate, authorizeAdmin } = require('./auth');
 
 router.use(authenticate, authorizeAdmin);
 

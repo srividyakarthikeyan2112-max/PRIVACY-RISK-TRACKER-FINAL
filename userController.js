@@ -1,5 +1,5 @@
 const bcrypt  = require('bcryptjs');
-const { User, RiskScore, LeakLog } = require('../models');
+const { User, RiskScore, LeakLog } = require('./index');
 
 // GET /api/users/:user_id
 const getUserProfile = async (req, res) => {
