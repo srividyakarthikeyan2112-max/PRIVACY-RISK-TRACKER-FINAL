@@ -1,20 +1,25 @@
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const { connectDB } = require('./config/database');
 
-// Register all model associations
-require('./models/index');
+// ✅ FIXED PATH (no config folder)
+const { connectDB } = require('./database');
+
+// ✅ FIXED PATH (no models folder)
+require('./index');
 
 const app = express();
 
-// ── Security ──────────────────────────────────────────────────
+
+// ── Security ────────────────────────────────────────────────
 app.use(helmet());
 app.use(cors({ origin: '*', credentials: true }));
 
-// ── Rate Limiting ─────────────────────────────────────────────
+
+// ── Rate Limiting ───────────────────────────────────────────
 app.use('/api/', rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 200,
@@ -27,19 +32,22 @@ const authLimiter = rateLimit({
   message: { success: false, message: 'Too many auth attempts. Try again later.' },
 });
 
-// ── Body Parsing ──────────────────────────────────────────────
+
+// ── Body Parsing ────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// ── Routes ────────────────────────────────────────────────────
-app.use('/api/auth',      authLimiter, require('./routes/auth'));
-app.use('/api/dashboard',              require('./routes/dashboard'));
-app.use('/api/leaks',                  require('./routes/leaks'));
-app.use('/api/alerts',                 require('./routes/alerts'));
-app.use('/api/users',                  require('./routes/users'));
-app.use('/api/admin',                  require('./routes/admin'));
 
-// ── Health Check ──────────────────────────────────────────────
+// ── Routes (FILES ARE IN ROOT) ──────────────────────────────
+app.use('/api/auth',      authLimiter, require('./auth'));
+app.use('/api/dashboard',              require('./dashboard'));
+app.use('/api/leaks',                  require('./leaks'));
+app.use('/api/alerts',                 require('./alerts'));
+app.use('/api/users',                  require('./users'));
+app.use('/api/admin',                  require('./admin'));
+
+
+// ── Health Check ────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
@@ -49,12 +57,17 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ── 404 ───────────────────────────────────────────────────────
+
+// ── 404 ─────────────────────────────────────────────────────
 app.use((req, res) => {
-  res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`
+  });
 });
 
-// ── Global Error Handler ──────────────────────────────────────
+
+// ── Error Handler ───────────────────────────────────────────
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(err.status || 500).json({
@@ -63,17 +76,19 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ── Start Server FIRST, then connect DB ──────────────────────
+
+// ── START SERVER FIRST (IMPORTANT FOR RENDER) ────────────────
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Privacy Risk Tracker API running on port ${PORT}`);
-  console.log(`📡 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Health endpoint ready`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
 
+
+// ── CONNECT DATABASE AFTER SERVER START ─────────────────────
 connectDB()
   .then(() => console.log('✅ Database connected'))
-  .catch((err) => console.error('❌ Database connection failed:', err.message));
+  .catch(err => console.error('❌ Database connection failed:', err.message));
+
 
 module.exports = app;
