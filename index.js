@@ -1,8 +1,8 @@
-const User = require('./user');
-const BreachDatabase = require('./breachDatabase');
-const LeakLog = require('./leakLog');
-const RiskScore = require('./riskScore');
-const Alert = require('./alert');
+const User = require('./User');
+const BreachDatabase = require('./BreachDatabase');
+const LeakLog = require('./LeakLog');
+const RiskScore = require('./RiskScore');
+const Alert = require('./Alert');
 
 // USER → RISK_SCORE (1:1)
 User.hasOne(RiskScore, { foreignKey: 'user_id', as: 'riskScore' });
