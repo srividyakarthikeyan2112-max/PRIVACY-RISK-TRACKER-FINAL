@@ -1,5 +1,5 @@
-const { User, BreachDatabase, LeakLog, RiskScore, Alert } = require('../index');
-const { sequelize } = require('../database');
+const { User, BreachDatabase, LeakLog, RiskScore, Alert } = require('../models');
+const { sequelize } = require('../config/database');
 const { Op, fn, col, literal } = require('sequelize');
 
 // POST /api/admin/breach/add

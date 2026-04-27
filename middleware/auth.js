@@ -1,7 +1,7 @@
 const jwt  = require('jsonwebtoken');
 
 // ✅ FIXED PATH
-const { User } = require('../index');
+const { User } = require('../models');
 
 const authenticate = async (req, res, next) => {
   try {

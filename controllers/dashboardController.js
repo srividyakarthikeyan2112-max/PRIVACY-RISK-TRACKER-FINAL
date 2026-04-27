@@ -1,4 +1,4 @@
-const { User, RiskScore, LeakLog, Alert, BreachDatabase } = require('../index');
+const { User, RiskScore, LeakLog, Alert, BreachDatabase } = require('../models');
 const { Op } = require('sequelize');
 const { getRiskTrend } = require('../services/riskService');
 

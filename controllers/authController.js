@@ -1,8 +1,8 @@
 const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
-const { sequelize } = require('../database');
-const { User, RiskScore } = require('../index');
+const { sequelize } = require('../config/database');
+const { User, RiskScore } = require('../models');
 
 const generateToken = (user) =>
   jwt.sign(
