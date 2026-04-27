@@ -1,24 +1,24 @@
-const User          = require('./User');
-const BreachDatabase = require('./BreachDatabase');
-const LeakLog       = require('./LeakLog');
-const RiskScore     = require('./RiskScore');
-const Alert         = require('./Alert');
+const User = require('./user');
+const BreachDatabase = require('./breachDatabase');
+const LeakLog = require('./leakLog');
+const RiskScore = require('./riskScore');
+const Alert = require('./alert');
 
 // USER → RISK_SCORE (1:1)
-User.hasOne(RiskScore,  { foreignKey: 'user_id', as: 'riskScore' });
+User.hasOne(RiskScore, { foreignKey: 'user_id', as: 'riskScore' });
 RiskScore.belongsTo(User, { foreignKey: 'user_id' });
 
 // USER → LEAK_LOG (1:M)
-User.hasMany(LeakLog,   { foreignKey: 'user_id', as: 'leaks' });
+User.hasMany(LeakLog, { foreignKey: 'user_id', as: 'leaks' });
 LeakLog.belongsTo(User, { foreignKey: 'user_id' });
 
 // BREACH_DATABASE → LEAK_LOG (1:M)
-BreachDatabase.hasMany(LeakLog,    { foreignKey: 'breach_id', as: 'leaks' });
-LeakLog.belongsTo(BreachDatabase,  { foreignKey: 'breach_id', as: 'breach' });
+BreachDatabase.hasMany(LeakLog, { foreignKey: 'breach_id', as: 'leaks' });
+LeakLog.belongsTo(BreachDatabase, { foreignKey: 'breach_id', as: 'breach' });
 
 // USER → ALERTS (1:M)
-User.hasMany(Alert,    { foreignKey: 'user_id', as: 'alerts' });
-Alert.belongsTo(User,  { foreignKey: 'user_id' });
+User.hasMany(Alert, { foreignKey: 'user_id', as: 'alerts' });
+Alert.belongsTo(User, { foreignKey: 'user_id' });
 
 // LEAK_LOG → ALERTS
 LeakLog.hasMany(Alert, { foreignKey: 'related_log_id', as: 'alerts' });
