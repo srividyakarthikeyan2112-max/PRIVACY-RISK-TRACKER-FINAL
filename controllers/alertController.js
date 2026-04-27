@@ -1,4 +1,4 @@
-const { Alert } = require('./index');
+const { Alert } = require('../index');
 const { Op } = require('sequelize');
 
 // GET /api/alerts/:user_id

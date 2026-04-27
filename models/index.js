@@ -1,8 +1,8 @@
-const User = require('./users');
-const BreachDatabase = require('./database'); // assuming this is your DB model
-const LeakLog = require('./leaks');
-const RiskScore = require('./riskService'); // adjust if different
-const Alert = require('./alerts');
+const User = require('./User');
+const BreachDatabase = require('./breachDatabase');
+const LeakLog = require('./leak');
+const RiskScore = require('./riskScore');
+const Alert = require('./alert');
 
 // USER → RISK_SCORE (1:1)
 User.hasOne(RiskScore, { foreignKey: 'user_id', as: 'riskScore' });

@@ -5,11 +5,11 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
-// ✅ FIXED PATH (no config folder)
-const { connectDB } = require('./database');
+// ✅ FIXED PATH (config folder)
+const { connectDB } = require('./config/database');
 
-// ✅ FIXED PATH (no models folder)
-require('./index');
+// ✅ FIXED PATH (models folder)
+require('./models');
 
 const app = express();
 
@@ -38,13 +38,13 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 
-// ── Routes (FILES ARE IN ROOT) ──────────────────────────────
-app.use('/api/auth',      authLimiter, require('./auth'));
-app.use('/api/dashboard',              require('./dashboard'));
-app.use('/api/leaks',                  require('./leaks'));
-app.use('/api/alerts',                 require('./alerts'));
-app.use('/api/users',                  require('./users'));
-app.use('/api/admin',                  require('./admin'));
+// ── Routes (FILES IN ROUTES FOLDER) ──────────────────────────
+app.use('/api/auth',      authLimiter, require('./routes/auth'));
+app.use('/api/dashboard',              require('./routes/dashboard'));
+app.use('/api/leaks',                  require('./routes/leaks'));
+app.use('/api/alerts',                 require('./routes/alerts'));
+app.use('/api/users',                  require('./routes/users'));
+app.use('/api/admin',                  require('./routes/admin'));
 
 
 // ── Health Check ────────────────────────────────────────────

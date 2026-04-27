@@ -1,5 +1,5 @@
-const { sequelize } = require('./database');
-const { LeakLog, RiskScore, Alert } = require('./index');
+const { sequelize } = require('../database');
+const { LeakLog, RiskScore, Alert } = require('../index');
 
 const SEVERITY_WEIGHTS = { Low: 5, Medium: 10, High: 20, Critical: 40 };
 

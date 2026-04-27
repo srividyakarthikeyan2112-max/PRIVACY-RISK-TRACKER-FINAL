@@ -1,6 +1,6 @@
-const { User, RiskScore, LeakLog, Alert, BreachDatabase } = require('./index');
+const { User, RiskScore, LeakLog, Alert, BreachDatabase } = require('../index');
 const { Op } = require('sequelize');
-const { getRiskTrend } = require('./riskService');
+const { getRiskTrend } = require('../services/riskService');
 
 // GET /api/dashboard/:user_id
 const getDashboard = async (req, res) => {
